@@ -35,7 +35,7 @@ const BuildingInfo = (props) => {
         const busroute = axios.create({
          baseURL: baseurl
         })
-        busroute.post('/api/bus/route', null, {params: {routeId: props.obj.routeid}})
+        busroute.get('/api/bus/route', null, {params: {routeId: props.obj.routeid}})
         .then(function(res){
          console.log(res.data);
          navigate('/bus-route', {
@@ -56,7 +56,7 @@ const BuildingInfo = (props) => {
         const busrouteinfo = axios.create({
             baseURL: baseurl
         })
-        busrouteinfo.post('/api/bus/route/detail', null, {params: {routeId: props.obj.routeid}})
+        busrouteinfo.get('/api/bus/route/detail', null, {params: {routeId: props.obj.routeid}})
         .then(function(res){
             searchBusRoute(res.data);
             console.log(res.data);

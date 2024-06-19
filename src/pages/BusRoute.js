@@ -74,7 +74,7 @@ function BusRoute(){
         const buslocation = axios.create({
             baseURL: baseurl
         })
-        buslocation.post('/api/bus/location', null, {params: {routeId: busInfo.routeid}})
+        buslocation.get('/api/bus/location', null, {params: {routeId: busInfo.routeid}})
             .then(function(res){
             if(res){
                 setRealLocation(res.data);

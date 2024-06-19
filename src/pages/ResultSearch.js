@@ -392,7 +392,7 @@ function ResultSearch() {
 
       if(locationmap && !elevatormks){        //엘레베이터 받아옴
         $.ajax({
-          method: "POST",
+          method: "GET",
           url: "http://localhost:9000/api/find/incheonElevator",
           async: false,
           data: {
@@ -488,9 +488,9 @@ function ResultSearch() {
       </div>
     </div>
 
-    <div id="test" style={{position: "fixed", top: "0px", zIndex: "10", zIndex: "0"}}>
+    <div id="test" style={{position: "fixed", top: "0px", zIndex: "10"}}>
     </div>
-    <div id="test1" style={{position: "fixed", top: "0px", zIndex: "10", zIndex: "0"}}>
+    <div id="test1" style={{position: "fixed", top: "0px", zIndex: "10"}}>
     </div>
     <div className="Infobar" ref={outsideRef} style={{position: "fixed", top: "0px", zIndex: "10"}}>
       
