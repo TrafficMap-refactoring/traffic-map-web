@@ -62,7 +62,7 @@ const BuildingInfo = (props) => {
         const subwayinfo = axios.create({
             baseURL: baseurl
         })
-        subwayinfo.post('/api/subway', null, {params: {name: subwaynm}})
+        subwayinfo.get('/api/subway', null, {params: {name: subwaynm}})
         .then(function(res){
             console.log(res.data);
             SetSelectSubway(res.data);

@@ -17,7 +17,7 @@ const BusStopInfo = (props) => {
         const busstopinfo = axios.create({
             baseURL: baseurl
         })
-        busstopinfo.post('/api/bus/busArrival', null, {params: {busStopId: props.obj.bstopid}})
+        busstopinfo.get('/api/bus/busArrival', null, {params: {busStopId: props.obj.bstopid}})
         .then(function(res){
             console.log(res.data);
 

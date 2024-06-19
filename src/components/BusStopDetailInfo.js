@@ -38,7 +38,7 @@ const BusStopDetailInfo = (props)=>{
         const busnum = axios.create({
             baseURL: baseurl
         })
-        busnum.post('api/bus/route/detail/', null, {params: {routeId: obj.routeid}})
+        busnum.get('api/bus/route/detail/', null, {params: {routeId: obj.routeid}})
         .then(function(res){
             console.log(res.data);
             setBusNumList(busnumlist => [...busnumlist, res.data[0]]);
@@ -52,7 +52,7 @@ const BusStopDetailInfo = (props)=>{
         const busstopinfo = axios.create({
             baseURL: baseurl
         })
-        busstopinfo.post('/api/bus/busArrival', null, {params: {busStopId: bstopid}})
+        busstopinfo.get('/api/bus/busArrival', null, {params: {busStopId: bstopid}})
         .then(function(res){
             console.log(res.data);
             setRBus(res.data);

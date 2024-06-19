@@ -92,7 +92,7 @@ const SearchBar = (props) => {
         const building = axios.create({
             baseURL: baseurl
         })
-        building.post('/api/find/address', null, {params: {keyword: searchValue, latitude: mylocation.latitude, longitude: mylocation.longitude}})
+        building.get('/api/find/tmap', null, {params: {keyword: searchValue, latitude: mylocation.latitude, longitude: mylocation.longitude}})
         .then(function(res){
             console.log(res.data);
             setBuildingList(res.data);
@@ -119,7 +119,7 @@ const SearchBar = (props) => {
         const bus = axios.create({
             baseURL: baseurl
         })
-        bus.post('api/bus/busInfo/', null, {params: {busName: searchValue}})
+        bus.get('api/bus/busInfo/', null, {params: {busName: searchValue}})
         .then(function(res){
             searchBuilding(res.data, props);
         }).catch(function(error){
@@ -132,7 +132,7 @@ const SearchBar = (props) => {
         const bus = axios.create({
             baseURL: baseurl
         })
-        bus.post('api/bus/busInfo/', null, {params: {busName: searchValue}})
+        bus.get('api/bus/busInfo/', null, {params: {busName: searchValue}})
         .then(function(res){
             console.log(res.data);
             setShowPopup(false);
@@ -153,7 +153,7 @@ const SearchBar = (props) => {
         const busstop = axios.create({
             baseURL: baseurl
         })
-        busstop.post('api/bus/busStop', null, {params: {busStopName: searchValue}})
+        busstop.get('api/bus/busStop', null, {params: {busStopName: searchValue}})
         .then(function(res){
             searchBus(res.data);
             console.log('버스정류소');

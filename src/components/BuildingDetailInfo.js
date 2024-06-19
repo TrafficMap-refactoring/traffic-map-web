@@ -171,7 +171,7 @@ const BuildingDetailInfo = (props) => {
 
 
         if((buildingDetailInfo.name).includes('인천지하철')){
-        subwaymap.post('/api/subway/photo', null, {params: {name: subwayname}})
+        subwaymap.get('/api/subway/photo', null, {params: {name: subwayname}})
         .then(function(res){
             console.log(res.data);
             if((buildingDetailInfo.name).includes('인천지하철1호선')){
@@ -195,7 +195,7 @@ const BuildingDetailInfo = (props) => {
             }
             console.log(name);
             console.log(line);
-        subwaymap2.post('api/subway/photo2', null, {params: {line: line, name: name}})
+        subwaymap2.get('api/subway/photo2', null, {params: {line: line, name: name}})
         .then(function(res){
             console.log(res.data);
             Seturl(res.data);
@@ -240,7 +240,7 @@ const BuildingDetailInfo = (props) => {
             case '남한산성입구': subwayname = '남한산성입구(성남법원, 검찰청)'; break;
             case '신촌': subwayname = '신촌(경의.중앙선)'; break;
         }
-        subwayinfo.post('/api/subway', null, {params: {name: subwayname}})
+        subwayinfo.get('/api/subway', null, {params: {name: subwayname}})
         .then(function(res){
             console.log(res.data);    
             var i= 0, j = 0;
@@ -282,7 +282,7 @@ const BuildingDetailInfo = (props) => {
         const wheelchairlift = axios.create({
             baseURL: baseurl
         })
-        wheelchairlift.post('/api/subway/wheelchair', null, {params: {subwayName: subwayname}})
+        wheelchairlift.get('/api/subway/wheelchair', null, {params: {subwayName: subwayname}})
         .then(function(res){
             console.log(res.data);
             if(res.data){
@@ -299,7 +299,7 @@ const BuildingDetailInfo = (props) => {
         const toilet = axios.create({
             baseURL: baseurl
         })
-        toilet.post('/api/subway/toilet', null, {params: {subwayName: subwayname}})
+        toilet.get('/api/subway/toilet', null, {params: {subwayName: subwayname}})
         .then(function(res){
             console.log(res.data);
             if(res.data){
