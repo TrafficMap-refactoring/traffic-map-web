@@ -153,7 +153,7 @@ const SearchBar = (props) => {
         const busstop = axios.create({
             baseURL: baseurl
         })
-        busstop.get('api/bus/busStop', null, {params: {busStopName: searchValue}})
+        busstop.get('api/bus/busstop',  {params: {keyword: searchValue}})
         .then(function(res){
             searchBus(res.data);
             console.log('버스정류소');

@@ -119,7 +119,7 @@ function Main() {
       const getstair = axios.create({
         baseURL: baseurl
       })
-      getstair.post('/api/find/stair')
+      getstair.get('/api/find/stair')
       .then(function(res){
         console.log(res);
       }).catch(function(err){
@@ -352,7 +352,7 @@ function Main() {
 
       if(testmap && !elevatormks){        //엘레베이터 받아옴
         $.ajax({
-          method: "POST",
+          method: "GET",
           url: "http://localhost:9000/api/find/incheonElevator",
           async: false,
           data: {
@@ -385,7 +385,7 @@ function Main() {
       var markers;
       if(testmap && !markers){
       $.ajax({                //계단 받아옴
-        method: "POST",
+        method: "GET",
         url: "http://localhost:9000/api/find/stair",
         async: false,
         data: {
