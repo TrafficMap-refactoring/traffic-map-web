@@ -71,8 +71,8 @@ function LocationMap() {
       var buildinglatitude;
       var buildinglongitude
       if(building.state.props.address !== '버스정류장'){
-        buildinglatitude = building.state.props.obj.latitude;
-        buildinglongitude = building.state.props.obj.longitude;
+        buildinglatitude = building.state.props.obj.frontLat;
+        buildinglongitude = building.state.props.obj.frontLon;
         if(building.state.subway === null){
           setSid(0);
         }else{
@@ -310,8 +310,8 @@ function LocationMap() {
 
       if(locationmap && !elevatormks){        //엘레베이터 받아옴
         $.ajax({
-          method: "POST",
-          url: "http://localhost:9000/api/find/incheonElevator",
+          method: "GET",
+          url: "http://localhost:9000/api/find/elevator",
           async: false,
           data: {
 
@@ -321,8 +321,8 @@ function LocationMap() {
 
             elevatormks = [];
             for(var i = 0; i < res.length; i++){
-              var lat = res[i].latitude;
-              var lng = res[i].longitude;
+              var lat = res[i].frontLat;
+              var lng = res[i].frontLon;
 
               var markerevt = new Tmapv2.Marker({
                 position: new Tmapv2.LatLng(lat, lng),

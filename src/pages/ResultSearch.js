@@ -150,13 +150,13 @@ function ResultSearch() {
 
     if(buildingList[3] && !plength){
       for(var i = 0; i < buildingList.length; i++){
-        markerlat.push(buildingList[i].latitude);
-        markerlng.push(buildingList[i].longitude);  
-        middlelat = middlelat + buildingList[i].latitude;
-        middlelng = middlelng + buildingList[i].longitude;   
+        markerlat.push(buildingList[i].frontLat);
+        markerlng.push(buildingList[i].frontLon);
+        middlelat = middlelat + buildingList[i].frontLat;
+        middlelng = middlelng + buildingList[i].frontLon;
         setMarkerLat(markerlat => [...markerlat]);
         setMarkerLng(markerlng => [...markerlng]);
-        if(buildingList[i].elevatorState === '운행중'){
+        if(buildingList[i].elvtrSttsNm === '운행중'){
           iselevator.push(true);
         }else{
           iselevator.push(false);
@@ -403,8 +403,8 @@ function ResultSearch() {
 
             elevatormks = [];
             for(var i = 0; i < res.length; i++){
-              var lat = res[i].latitude;
-              var lng = res[i].longitude;
+              var lat = res[i].frontLat;
+              var lng = res[i].frontLon;
 
               var markerevt = new Tmapv2.Marker({
                 position: new Tmapv2.LatLng(lat, lng),

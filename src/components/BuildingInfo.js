@@ -23,8 +23,8 @@ const BuildingInfo = (props) => {
         console.log(props);  
         var mylat = props.mylocation.latitude;
         var mylng = props.mylocation.longitude;
-        var lat = props.obj.latitude;
-        var lng = props.obj.longitude;
+        var lat = props.obj.frontLat;
+        var lng = props.obj.frontLon;
 
         function deg2rad(deg){
             return deg * (Math.PI/180);
@@ -46,7 +46,7 @@ const BuildingInfo = (props) => {
             setDistance(Math.round(d*1000)+'m');
         }
 
-        if(props.obj.elevatorState === '운행중'){
+        if(props.obj.elvtrSttsNm === '운행중'){
             setIsElevator(true);
         }else{
             setIsElevator(false);
@@ -62,7 +62,7 @@ const BuildingInfo = (props) => {
         const subwayinfo = axios.create({
             baseURL: baseurl
         })
-        subwayinfo.get('/api/subway', null, {params: {name: subwaynm}})
+        subwayinfo.get('/api/subway',  {params: {name: subwaynm}})
         .then(function(res){
             console.log(res.data);
             SetSelectSubway(res.data);
@@ -201,7 +201,7 @@ const BuildingInfo = (props) => {
                 <div style={{ textAlign: "-webkit-left" }}>
                         {distance}
                 </div>
-                {props.address}
+                    {props.address}
             </div>
             <div className= "col-3"style= {{alignSelf: "center", padding: "0px", paddingRight: "10px"}}>
                 {iselevator && 

@@ -119,7 +119,7 @@ function FindWay(props){
         const fw = axios.create({
             baseURL: baseurl
         })
-        fw.post('/api/way', null, {params: {
+        fw.get('/api/way',  {params: {
             startX : startlng, startY : startlat, endX : endlng, endY : endlat, startName : "출발지", endName : "도착지", option : '0'
         }}).then(function(res){
             setRoute(res.data);
@@ -132,7 +132,7 @@ function FindWay(props){
         const tft = axios.create({
             baseURL: baseurl
         })
-        tft.post('/api/way/trans', null, {params: {
+        tft.get('/api/way/trans',  {params: {
             sName: startname, eName: endname
         }}).then(function(res){
             window.open(res.data, '_blank');
@@ -145,8 +145,8 @@ function FindWay(props){
         const rG = axios.create({
             baseURL: baseurl
         })
-        rG.post('/api/find/reverseGeo', null, {params: {
-            lat: lat, lon: lon
+        rG.get('/api/find/reverse-geo',  {params: {
+            latitude: lat, longitude: lon
         }}).then(function(res){
             setStartPlaceHolder(res.data);
             setStartPlace({name: res.data, obj: {latitude: lat, longitude: lon}})
@@ -157,9 +157,10 @@ function FindWay(props){
 
     useEffect(()=>{
         if(location.state.mystartlocation){
-            console.log(location.state.mystartlocation);
+
             setStartPlaceHolder(location.state.mystartlocation);
             setStartPlace({name: location.state.mystartlocation, obj: {latitude: location.state.mylocation.latitude, longitude: location.state.mylocation.longitude}})
+            console.log(location.state.mystartlocation);
         }else{
             console.log("없어");
         }
@@ -189,30 +190,32 @@ function FindWay(props){
         console.log(location.state);
         setFindway(location.state);
 
-        
-        
+
+
         if(location.state){
             if(location.state.startBuilding){
                 console.log("출발지 정보 왔어요");
-                setStartPlace(location.state.startBuilding);            //출발지 정보
+                //setStartPlace(location.state.startBuilding);            //출발지 정보
                 setStartPlaceHolder(location.state.startBuilding.name);  //출발지 이름
+                setStartPlace({name: location.state.startBuilding.name, obj: {latitude: location.state.startBuilding.obj.frontLat, longitude: location.state.startBuilding.obj.frontLon}})
             }
-            if(location.state.endBuilding){    
+            if(location.state.endBuilding){
                 var ep = endPlace;
                 console.log(ep);
-                setEndPlace(location.state.endBuilding);              //도착지 정보
+                console.log(location.state.endBuilding);
+                setEndPlace({name: location.state.endBuilding.name, obj: {latitude: location.state.endBuilding.obj.frontLat, longitude: location.state.endBuilding.obj.frontLon}});              //도착지 정보
                 setEndPlaceHolder(location.state.endBuilding.name);   //도착지 이름
-            }  
+            }
             // if(location.state.startBuilding && location.state.endBuilding){
             if(startPlace && endPlace){
                 navigator.geolocation.getCurrentPosition(handleSuccess);
                 var startlat, startlng, endlat, endlng;
                 const besseltm = "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43"
-                const wgs84 = "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees" 
+                const wgs84 = "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees"
                 var posx, posy;
                 console.log("출발지, 도착지 둘 다 입력 완료");
                 console.log(startPlace);
-                console.log(endPlace);   
+                console.log(endPlace);
                 setBoth(true);
                 if(startPlace.address === '버스정류장'){
                     posx = startPlace.obj.posx;
@@ -257,7 +260,7 @@ function FindWay(props){
         openMadal();
     }
 
-    
+
   useEffect(()=>{
     navigator.geolocation.watchPosition(handleSuccess);
 
@@ -269,7 +272,7 @@ function FindWay(props){
         var middleLat, middleLng;
         var posx, posy;
         const besseltm = "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43"
-        const wgs84 = "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees" 
+        const wgs84 = "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees"
 
         navigator.geolocation.getCurrentPosition(handleSuccess);
 
@@ -278,7 +281,7 @@ function FindWay(props){
             var lat = findLocation.latitude;
             var lng = findLocation.longitude;
         }
-        
+
         if(both){
             if(startPlace.address === '버스정류장'){
                 posx = startPlace.obj.posx;
@@ -304,7 +307,7 @@ function FindWay(props){
                 endLat = endPlace.obj.latitude;
                 endLng = endPlace.obj.longitude;
             }
-            
+
             middleLat = (startLat + endLat) / 2;
             middleLng = (startLng + endLng) / 2;
 
@@ -531,8 +534,8 @@ function FindWay(props){
 
             if(map && !elevatormks){        //엘레베이터 받아옴
                 $.ajax({
-                  method: "POST",
-                  url: "http://localhost:9000/api/find/incheonElevator",
+                  method: "GET",
+                  url: "http://localhost:9000/api/find/elevator",
                   async: false,
                   data: {
         
@@ -583,7 +586,7 @@ function FindWay(props){
             var markers;
             if(map && !markers){
             $.ajax({                //계단 받아옴
-              method: "POST",
+              method: "GET",
               url: "http://localhost:9000/api/find/stair",
               async: false,
               data: {
@@ -698,9 +701,9 @@ function FindWay(props){
                 <div className="col-1" style={{alignSelf: "flex-start", marginTop: "5px", padding: "0px"}}>
                     <div style={{display: "flex", left: "-3px"}}>
                         <i class="bi bi-x" onClick={handleXButton} style={{fontSize: "2rem"}}></i>
-                    </div>                               
+                    </div>
                 </div>
-                {both && 
+                {both &&
                 <div style={{width: "100%", padding: "0px"}}>
                     <button id="walkbtn"><img src={walk} style={{width: "16px", height: "24px", marginRight: "8px", marginBottom: "2px"}}></img>도보</button>
                     <button id="walkbtn" onClick={handleTransButton}><img src={bus} style={{width: "24px", height: "24px", marginRight: "8px", marginBottom: "2px"}}></img>대중교통</button>
@@ -714,14 +717,14 @@ function FindWay(props){
                 height: "100%",
                 width: "100%",
               }}>
-                
+
             </div>
             <SideBar width={sideWidth} totalDistance={totalDistance} totalTime={totalTime} start={startPlace} end={endPlace}>{routeDetail}</SideBar>
             </body>}
-            <UrlModal open={modalOpen} close={closeModal} connect={urlModal}>  
+            <UrlModal open={modalOpen} close={closeModal} connect={urlModal}>
             </UrlModal>
-            
-        </div>     
+
+        </div>
     );
 }
 export default FindWay;
