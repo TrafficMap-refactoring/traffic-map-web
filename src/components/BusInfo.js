@@ -21,7 +21,7 @@ const BuildingInfo = (props) => {
     const [busIcon, setBusIcon] = useState(bus);
 
     useEffect(()=>{
-        var id = props.obj.routetpcd;
+        var id = props.obj.routeType;
         switch (id) {
             case 1: setColor('#009300');  setBusIcon(bus1); break;       //지선
             case 2: setColor('#0054FF'); setBusIcon(bus2); break;        //간선
@@ -35,7 +35,7 @@ const BuildingInfo = (props) => {
         const busroute = axios.create({
          baseURL: baseurl
         })
-        busroute.get('/api/bus/route', null, {params: {routeId: props.obj.routeid}})
+        busroute.get('/api/bus/busstopbyroute',  {params: {busRouteId: props.obj.busRouteId}})
         .then(function(res){
          console.log(res.data);
          navigate('/bus-route', {
@@ -56,7 +56,7 @@ const BuildingInfo = (props) => {
         const busrouteinfo = axios.create({
             baseURL: baseurl
         })
-        busrouteinfo.get('/api/bus/route/detail', null, {params: {routeId: props.obj.routeid}})
+        busrouteinfo.get('/api/bus/busstopbyroute',  {params: {busRouteId: props.obj.busRouteId}})
         .then(function(res){
             searchBusRoute(res.data);
             console.log(res.data);
@@ -65,14 +65,15 @@ const BuildingInfo = (props) => {
         })
      }
     return(
+        console.log(props.obj),
         <li className="list-group-item" onClick={searchBusRouteInfo} style={{paddingLeft: "10px"}}>
             <div className="ms-2" style={{ textAlign: "left"}}>
                 <div className="fw-bold" style={{ textAlign: "left", color: color}}>
                     <img src={busIcon} style={{width: "17px", height: "18px", marginRight: "6px", top: "-1px"}}></img>
-                    {props.obj.routeno}
+                    {props.obj.busRouteAbrv}
                 </div>
-                {props.obj.origin_BSTOPNM} {arrow} {props.obj.turn_BSTOPNM}
-                {props.time && <div style={{color: "red", textAlign: "left"}}>남은 시간: {props.time}분 {props.lowTP && <text style={{color: "blue"}}>{props.lowTP}</text>}</div>}
+                {props.obj.stStationNm}{props.obj.direction} {arrow} {props.obj.edStationNm}{props.obj.stationNm}
+                {props.time && <div style={{color: "red", textAlign: "left"}}>남은 시간: {props.time} {props.lowTP && <text style={{color: "blue"}}>{props.lowTP}</text>}</div>}
             </div>
         </li>
     );

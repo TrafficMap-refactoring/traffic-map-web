@@ -132,7 +132,7 @@ const SearchBar = (props) => {
         const bus = axios.create({
             baseURL: baseurl
         })
-        bus.get('api/bus/busInfo/', null, {params: {busName: searchValue}})
+        bus.get('api/bus/businfo',  {params: {strSrch: searchValue}})
         .then(function(res){
             console.log(res.data);
             setShowPopup(false);

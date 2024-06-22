@@ -6,11 +6,11 @@ const BusRouteList = (props) => {
 
     if(props.isit === true){                    //현재 위치에 버스가 있나?
         
-        imnum = (props.businfo.busid)%10000;
+        imnum = (props.businfo.plainNo1);
         num = <h8>{imnum}</h8>
         ibus = <img src={props.img} style={{width: "29px", height: "29px"}}></img>;
         arrow = null;
-        if(props.businfo.low_TP_CD === 1){
+        if(props.businfo.busType1 === 1){
             low = <h9>저상</h9>
             mtop = "15%";
         }
@@ -38,11 +38,11 @@ const BusRouteList = (props) => {
                 <div className="col-3"/>
                 <div className="col-9" style={{backgroundColor: "#BDBDBD"}}>회차지</div>
                 </div> : null}
-            <div className = "col-3" style={{backgroundColor: "white", borderRadius: "3px", textAlign: "center"}}>
-                <div className = "" style={{top: mtop}}>   
+            <div className = "col-3" style={{backgroundColor: "white", borderRadius: "3px", textAlign: "center",overflow: "hidden",whiteSpace: "normal", overflowWrap: "break-word", wordBreak: "break-all"}}>
+                <div className = "" style={{top: mtop, fontSize:"12px", position: "relative"}}>
                     <div style={{zIndex: "1"}}>
-                    {num}<br></br>
-                    {low}
+                        {num}<br></br>
+                        {low}
                     </div>
                     {num && <div className="pull"></div>}
                 </div> 

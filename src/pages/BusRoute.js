@@ -30,7 +30,7 @@ function BusRoute(){
     const [img, setImg ] = useState(bus);
 
     const navigate = useNavigate();
-
+    const [turnId,setTurnId] = useState();
     const handlebackButton = () => {
         var url = location.state.url;
         console.log("back");   
@@ -44,8 +44,22 @@ function BusRoute(){
     useEffect(() => {                               //받아온 버스 정보 버스 노선 정보, 버스 실시간 위치 정보
         console.log(location.state.url);
         setBusRoute(location.state.busroute);
+        console.log(busRoute);
+        console.log(typeof busRoute);
+
+        var turnId;
+        for (let key in busRoute) {
+            if (busRoute.hasOwnProperty(key)) {
+                let route = busRoute[key];
+                if (route.transYn === "Y") {
+                    setTurnId(route.trnstnid);
+                }
+            }
+        }
+
         setBusInfo(location.state.props);
-        var id = location.state.props.routetpcd;
+        console.log(busInfo);
+        var id = location.state.props.routeType;
         switch (id) {
             case 1: setColor('#009300'); setImg(bus1); break;       //지선,초록색
             case 2: setColor('#0054FF'); setImg(bus2); break;        //간선,파란색
@@ -74,10 +88,11 @@ function BusRoute(){
         const buslocation = axios.create({
             baseURL: baseurl
         })
-        buslocation.get('/api/bus/location', null, {params: {routeId: busInfo.routeid}})
+        buslocation.get('/api/bus/arrinfobyroute',  {params: {busRouteId: busInfo.busRouteId}})
             .then(function(res){
             if(res){
                 setRealLocation(res.data);
+                console.log(res.data);
                 setIsItBus(true);
             }
             else{
@@ -105,13 +120,13 @@ function BusRoute(){
                     ></i>
                 </div>
                 <div className="" style={{width: "60%", fontSize: "2.0em", color: color}}>
-                <img src={img} style={{width:"25px",height:"25px" , marginRight:"13px", marginBottom: "3px"}}/><text style={{fontSize: "25px"}}>{busInfo.routeno}</text>     
+                <img src={img} style={{width:"25px",height:"25px" , marginRight:"13px", marginBottom: "3px"}}/><text style={{fontSize: "25px"}}>{busInfo.busRouteAbrv}</text>
                 </div>
                 <div style={{width: "20%"}}>     
                 </div>
                 <div className="busdirec" style={{width: "100%", height: "40px", marginTop: "3%"}}>
-                    <button type="button" id="busdirbutton" className="busdirbutton" onClick={handlefbutton}>{busInfo.turn_BSTOPNM} 방면</button>
-                    <button type="button" id="busdirbutton" className="busdirbutton" onClick={handlebbutton}>{busInfo.origin_BSTOPNM} 방면</button>
+                    <button type="button" id="busdirbutton" className="busdirbutton" onClick={handlefbutton}>{busInfo.edStationNm}{busInfo.direction} 방면</button>
+                    <button type="button" id="busdirbutton" className="busdirbutton" onClick={handlebbutton}>{busInfo.stStationNm}{busInfo.stationNm} 방면</button>
                 </div>
             </nav>
 
@@ -122,18 +137,24 @@ function BusRoute(){
                     {isitbus && busInfo && busRoute && busRoute.map((obj, index)=>{
                         var isit;
                         var bus = undefined;
-                        for(var i = 0; i < reallocation.length; i++){
-                            if(reallocation[i].latest_STOP_ID === obj.bstopid && reallocation[i].dircd === obj.dircd){
+                        var trnstnid;
+                        for(var i = 1; i < reallocation.length; i++){
+                            if(reallocation[i].stId === obj.station && reallocation[i-1].plainNo1!=reallocation[i].plainNo1 ){// && reallocation[i].adirection === obj.direction){
                                 isit = true;  
                                 bus = i;
+
                                 break;
                             }
                             else{
                                 isit = false;
-                            }     
+                            }
+                            if(obj.transYn=="Y"){
+                                trnstnid=obj.trnstnid;
+                            }
+
                         }
                         return(
-                            <BusRouteList businfo={reallocation[bus]} isit={isit} img={img} bstopnm={obj.bstopnm} bstopid={obj.bstopid} sbstopid={obj.short_BSTOPID} turn={busInfo.turn_BSTOPID}></BusRouteList>
+                            <BusRouteList businfo={reallocation[bus]} isit={isit} img={img} bstopnm={obj.stationNm} bstopid={obj.station} sbstopid={obj.stationNo} turn={turnId}></BusRouteList>
                         )
                     })}
                 </div>
