@@ -38,7 +38,7 @@ const BusStopDetailInfo = (props)=>{
         const busnum = axios.create({
             baseURL: baseurl
         })
-        busnum.get('api/bus/route/detail/', null, {params: {routeId: obj.routeid}})
+        busnum.get('/api/bus/busstopbyroute',  {params: {busRouteId: obj.busRouteId}})
         .then(function(res){
             console.log(res.data);
             setBusNumList(busnumlist => [...busnumlist, res.data[0]]);
@@ -49,10 +49,11 @@ const BusStopDetailInfo = (props)=>{
     };
 
     const searchbusstopinfo = (bstopid) => {
+        console.log(bstopid)
         const busstopinfo = axios.create({
             baseURL: baseurl
         })
-        busstopinfo.get('/api/bus/busArrival', null, {params: {busStopId: bstopid}})
+        busstopinfo.get('/api/bus/arrinfo',  {params: {arsId: bstopid}})
         .then(function(res){
             console.log(res.data);
             setRBus(res.data);
@@ -72,8 +73,8 @@ const BusStopDetailInfo = (props)=>{
 
     const handleRefreshButton = () => {
         console.log("새로고침");
-        console.log(props.obj.bstopid);
-        var bstopid = props.obj.bstopid;
+        console.log(props.obj.arsId);
+        var bstopid = props.obj.arsId;
         searchbusstopinfo(bstopid);
     }
 
@@ -144,8 +145,8 @@ const BusStopDetailInfo = (props)=>{
     useEffect(()=>{
         const besseltm = "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43"
         const wgs84 = "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees" 
-        var lat1x = props.obj.posx;
-        var lon1y = props.obj.posy;
+        var lat1x = props.obj.posX;
+        var lon1y = props.obj.posY;
         var pt = new proj4.Point(lat1x, lon1y);
         var test = proj4(besseltm, wgs84, pt);
         var lat1 = test.y;
@@ -294,7 +295,7 @@ const BusStopDetailInfo = (props)=>{
                             </div>
                             <div style={{position: "relative", width:"100%", height: "100%"}}>
                                 <div style={{fontSize: "1.2rem", float: "left", padding: "9px"}}>
-                                    {bustop.bstopnm} <br></br>
+                                    {bustop.stNm} <br></br>
                                     <div style={{fontSize: "1.0rem", float: "left", paddingLeft: "2px"}}>{dist}</div>
                                 </div>
                                 <div className="" style={{position: "absolute", width: "170px", float: "right", right: "0px", bottom: "15px"}}>
@@ -310,11 +311,12 @@ const BusStopDetailInfo = (props)=>{
                             <ol className="list-group" >
                             {rbus && isset && rbus.map((obj, index)=>{
                                 var test = busnumlist[index];
+                                console.log(test);
                                 console.log(testBus[index]);
                                 if(test){
-                                    let time = parseInt(obj.arrivalestimatetime/60);
+                                    let time = obj.arrmsg1;
                                     var lowTP;
-                                    if(obj.low_TP_CD == 1){
+                                    if(obj.busType1 == 1){
                                         lowTP = '저상';
                                     }else{
                                         lowTP = null;

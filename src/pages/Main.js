@@ -102,8 +102,8 @@ function Main() {
       const rG = axios.create({
           baseURL: baseurl
       })
-      rG.post('/api/find/reverseGeo', null, {params: {
-          lat: lat, lon: lon
+      rG.get('/api/find/reverse-geo',  {params: {
+              latitude: lat, longitude: lon
       }}).then(function(res){
           navigate('/find-way', {
             state: {
@@ -353,13 +353,15 @@ function Main() {
       if(testmap && !elevatormks){        //엘레베이터 받아옴
         $.ajax({
           method: "GET",
-          url: "http://localhost:9000/api/find/incheonElevator",
+          url: "http://localhost:9000/api/find/elevator",
           async: false,
+          headers: {
+                "Accept": "application/json"
+            },
           data: {
 
           },
           success: function(res){
-            console.log(res);
 
             elevatormks = [];
             for(var i = 0; i < res.length; i++){
@@ -388,6 +390,9 @@ function Main() {
         method: "GET",
         url: "http://localhost:9000/api/find/stair",
         async: false,
+        headers: {
+                "Accept": "application/json"
+            },
         data: {
 
         },

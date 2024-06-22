@@ -17,7 +17,7 @@ const BusStopInfo = (props) => {
         const busstopinfo = axios.create({
             baseURL: baseurl
         })
-        busstopinfo.get('/api/bus/busArrival', null, {params: {busStopId: props.obj.bstopid}})
+        busstopinfo.get('/api/bus/arrinfo',  {params: {arsId: props.obj.arsId}})
         .then(function(res){
             console.log(res.data);
 
@@ -105,7 +105,7 @@ const BusStopInfo = (props) => {
             <div className="row">
                 <div className="col-10" style={{ textAlign: "left" }}>
                     <div className="fw-bold" style={{ textAlign: "left" }}>
-                        {props.name}
+                        {props.obj.stNm}
                     </div>
                     {props.address}
                 </div>

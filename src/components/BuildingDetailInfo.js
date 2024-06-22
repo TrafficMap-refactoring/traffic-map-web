@@ -33,6 +33,9 @@ const BuildingDetailInfo = (props) => {
     const [wheelchairLocation, setWCLocation] = useState();
     const [isToiletClick, setIsToiletClick] = useState(false);
     const [toiletLocation, setToiletLocation] = useState([]);
+    const [isSubwayElevator,setIsSubwayElevator] = useState(false);
+    const [subwayElevatorLocation,setSubwayElevatorLocation] = useState(false);
+    const [isSubwayElevatorClick,setIsSubwayElevatorClick] = useState(false);
 
     const [modalOpen, setModalOpen] = useState(false);
     const el = useRef();
@@ -171,7 +174,7 @@ const BuildingDetailInfo = (props) => {
 
 
         if((buildingDetailInfo.name).includes('인천지하철')){
-        subwaymap.get('/api/subway/photo', null, {params: {name: subwayname}})
+        subwaymap.get('/api/subway/photo2', {params: {name: subwayname}})
         .then(function(res){
             console.log(res.data);
             if((buildingDetailInfo.name).includes('인천지하철1호선')){
@@ -195,10 +198,10 @@ const BuildingDetailInfo = (props) => {
             }
             console.log(name);
             console.log(line);
-        subwaymap2.get('api/subway/photo2', null, {params: {line: line, name: name}})
+        subwaymap2.get('api/subway/photo', {params: {name: name}})
         .then(function(res){
             console.log(res.data);
-            Seturl(res.data);
+            Seturl(res.data.url);
         }).catch(function(err){
             console.log("1~9호선 내부지도 못받아옴");
         })
@@ -240,7 +243,7 @@ const BuildingDetailInfo = (props) => {
             case '남한산성입구': subwayname = '남한산성입구(성남법원, 검찰청)'; break;
             case '신촌': subwayname = '신촌(경의.중앙선)'; break;
         }
-        subwayinfo.get('/api/subway', null, {params: {name: subwayname}})
+        subwayinfo.get('/api/subway',  {params: {name: subwayname}})
         .then(function(res){
             console.log(res.data);    
             var i= 0, j = 0;
@@ -282,7 +285,7 @@ const BuildingDetailInfo = (props) => {
         const wheelchairlift = axios.create({
             baseURL: baseurl
         })
-        wheelchairlift.get('/api/subway/wheelchair', null, {params: {subwayName: subwayname}})
+        wheelchairlift.get('/api/subway/wheelchair',  {params: {name: subwayname}})
         .then(function(res){
             console.log(res.data);
             if(res.data){
@@ -299,7 +302,7 @@ const BuildingDetailInfo = (props) => {
         const toilet = axios.create({
             baseURL: baseurl
         })
-        toilet.get('/api/subway/toilet', null, {params: {subwayName: subwayname}})
+        toilet.get('/api/subway/toilet',  {params: {name: subwayname}})
         .then(function(res){
             console.log(res.data);
             if(res.data){
@@ -313,7 +316,25 @@ const BuildingDetailInfo = (props) => {
         })
 
     };
+    //코드 추가
+    const findSubwayElevator = (subwayname) => {            //엘레베이터
+        const subwayElevator = axios.create({
+            baseURL: baseurl
+        })
+        subwayElevator.get('/api/subway/elevator',  {params: {name: subwayname}})
+            .then(function(res){
+                console.log(res.data);
+                if(res.data){
+                    setIsSubwayElevator(true);
+                    setSubwayElevatorLocation(res.data);
+                }else{
+                    setIsSubwayElevator(false);
+                }
+            }).catch(function(err){
+            console.log("엘레베이터 정보 못받아옴");
+        })
 
+    };
     const handleWCButton = () => {  //화장실 아이콘 버튼 클릭
         console.log("클릭했구려");
         
@@ -328,6 +349,13 @@ const BuildingDetailInfo = (props) => {
             setIsWheelChairLiftClick(false);
         }else{
             setIsWheelChairLiftClick(true);
+        }
+    }
+    const handleSEButton = () => {
+        if(isSubwayElevatorClick){
+            setIsSubwayElevatorClick(false);
+        }else{
+            setIsSubwayElevatorClick(true);
         }
     }
     const handleCloseInfo = (e) => {
@@ -377,15 +405,16 @@ const BuildingDetailInfo = (props) => {
         var sname = tmp + " " + subwayname;
         console.log(sname);
         findToilet(sname);
+        findSubwayElevator(sname);
         findWheelchair(sname);
         }
         setBuildingDetailInfo(props.props);
         SetSubway(props.subway);
-        if(props.props.elevatorState === '운행중'){
-            setIsElevator(true);
-        }else{
-            setIsElevator(false);
-        }
+        //if(props.props.elvtrSttsNm === '운행중'){
+        //    setIsElevator(true);
+        //}else{
+        //    setIsElevator(false);
+        //}
 
         // if(!one && buildingDetailInfo && subway){
         //     setOne(true);
@@ -446,6 +475,22 @@ const BuildingDetailInfo = (props) => {
                         팝업창임
                     </Modal>
                 <footer>
+                    {subwayElevatorLocation && isSubwayElevatorClick &&
+                        <Swiper style={swiperStyle}>
+                            <div ref={el} style={{position: "absolute", backgroundColor: "white", height: "20%", top: "-21%", right: "0px"}}>
+                                {/* <Swiper > */}
+                                {subwayElevatorLocation.map((obj, index)=>{
+                                    console.log(obj.dtlLoc);
+                                    return(
+                                        <SwiperSlide>
+                                            <div style={{boxShadow: "0px 0px 2px 1px gray", borderRadius: "3px"}}>
+                                                <text style={{fontFamily: 'Nanum Gothic Coding', fontSize: "0.9rem"}}>{obj.dtlLoc} {obj.grndDvNmFr}{obj.runStinFlorFr}층 -> {obj.grndDvNmTo}{obj.runStinFlorTo}층</text>
+                                            </div>
+                                        </SwiperSlide>
+                                    );
+                                })}
+                                {/* </Swiper> */}
+                            </div></Swiper>}
                     {toiletLocation && isToiletClick && 
                         <Swiper style={swiperStyle}>
                         <div ref={el} style={{position: "absolute", backgroundColor: "white", height: "20%", top: "-21%", right: "0px"}}>
@@ -455,8 +500,8 @@ const BuildingDetailInfo = (props) => {
                                 return(
                                     <SwiperSlide>
                                     <div style={{boxShadow: "0px 0px 2px 1px gray", borderRadius: "3px"}}>
-                                        <text style={{fontFamily: 'Nanum Gothic Coding', fontSize: "1rem"}}>{obj.dtlLoc}</text>
-                                    </div>  
+                                        <text style={{fontFamily: 'Nanum Gothic Coding', fontSize: "0.9rem"}}>{obj.dtlLoc} {obj.exitNo}번출구 {obj.mlFmlDvNm}화장실</text>
+                                    </div>
                                     </SwiperSlide>
                                 );
                             })}
@@ -485,7 +530,7 @@ const BuildingDetailInfo = (props) => {
                             </div><div className="col-5" style={{paddingLeft: "0px"}}>
                                 <div id="subwaymapbutton" className="" style={{paddingRight: "5%"}}>
                                     
-                                    {iselevator && <img src={elevator} style={{width: "24px", height: "24px", marginRight: "7px", float: "left"}}></img>}
+                                    {isSubwayElevator && <img src={elevator} onClick={handleSEButton} style={{width: "24px", height: "24px", marginRight: "7px", float: "left"}}></img>}
                                     
                                     <button id='arrowbutton' onClick={searchsubwaytime} style={{backgroundColor: "white", border: "none", padding: "0px", width: "26px", height: "26px", float: "right"}}>
                                         <img id='arrowrefresh' src={arrowsrefresh} style={{padding: "0px", left : "-1px", top: "-2px"}}></img>

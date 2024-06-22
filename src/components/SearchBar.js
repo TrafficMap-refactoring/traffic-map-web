@@ -92,7 +92,7 @@ const SearchBar = (props) => {
         const building = axios.create({
             baseURL: baseurl
         })
-        building.get('/api/find/tmap', null, {params: {keyword: searchValue, latitude: mylocation.latitude, longitude: mylocation.longitude}})
+        building.get('/api/find/tmap',  {params: {keyword: searchValue, latitude: mylocation.latitude, longitude: mylocation.longitude}})
         .then(function(res){
             console.log(res.data);
             setBuildingList(res.data);
@@ -119,7 +119,7 @@ const SearchBar = (props) => {
         const bus = axios.create({
             baseURL: baseurl
         })
-        bus.get('api/bus/busInfo/', null, {params: {busName: searchValue}})
+        bus.get('api/bus/businfo',  {params: {strSrch: searchValue}})
         .then(function(res){
             searchBuilding(res.data, props);
         }).catch(function(error){
@@ -132,7 +132,7 @@ const SearchBar = (props) => {
         const bus = axios.create({
             baseURL: baseurl
         })
-        bus.get('api/bus/busInfo/', null, {params: {busName: searchValue}})
+        bus.get('api/bus/businfo',  {params: {strSrch: searchValue}})
         .then(function(res){
             console.log(res.data);
             setShowPopup(false);
