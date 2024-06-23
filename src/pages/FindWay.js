@@ -195,13 +195,22 @@ function FindWay(props){
                 console.log("출발지 정보 왔어요");
                 console.log(location.state.startBuilding);
                 setStartPlaceHolder(location.state.startBuilding.name); // 출발지 이름
-                setStartPlace(location.state.startBuilding);
-                //setStartPlace({ name: location.state.startBuilding.name, obj: { latitude: location.state.startBuilding.obj.frontLat, longitude: location.state.startBuilding.obj.frontLon }});
+                if(location.state.startBuilding.obj.frontLat){
+                    setStartPlace({ name: location.state.startBuilding.name, obj: { latitude: location.state.startBuilding.obj.frontLat, longitude: location.state.startBuilding.obj.frontLon }});
+                }
+                else{
+                    setStartPlace(location.state.startBuilding);
+                }
+
                 console.log(startPlace);
             }
             if (location.state.endBuilding) {
                 console.log(location.state.endBuilding);
-                setEndPlace({ name: location.state.endBuilding.name, obj: { latitude: location.state.endBuilding.obj.frontLat, longitude: location.state.endBuilding.obj.frontLon } }); // 도착지 정보
+                if(location.state.endBuilding.obj.frontLat){
+                    setEndPlace({ name: location.state.endBuilding.name, obj: { latitude: location.state.endBuilding.obj.frontLat, longitude: location.state.endBuilding.obj.frontLon } }); // 도착지 정보
+                }else{
+                    setEndPlace(location.state.endBuilding);
+                }
                 setEndPlaceHolder(location.state.endBuilding.name); // 도착지 이름
             }
         }
@@ -435,16 +444,17 @@ function FindWay(props){
                 marker_s = new Tmapv2.Marker(
                     {
                         position : new Tmapv2.LatLng(${startLat}, ${startLng}),
-                        icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+                        icon : "/upload/tmap/marker/pin_r_m_s.png",
                         iconSize : new Tmapv2.Size(24, 38),
                         map : map
                     });
+                    
     
                 // 도착 마커
                 marker_e = new Tmapv2.Marker(
                     {
                         position : new Tmapv2.LatLng(${endLat}, ${endLng}),
-                        icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
+                        icon : "/upload/tmap/marker/pin_r_m_e.png",
                         iconSize : new Tmapv2.Size(24, 38),
                         map : map
                 });
@@ -458,7 +468,7 @@ function FindWay(props){
                     ${setCheck(true)};
                     $.ajax({
                     method: "GET",
-                    url : "http://localhost:9000/api/way",
+                    url : "http://localhost:9000/api/way/draw",
                     async: false,
                     data: {
 						"startX" : "${startLng}",
@@ -488,6 +498,7 @@ function FindWay(props){
 
 							if (geometry.type == "LineString") {
 								for ( var j in geometry.coordinates) {
+								  
 									// 경로들의 결과값(구간)들을 포인트 객체로 변환 
 									var latlng = new Tmapv2.Point(
 											geometry.coordinates[j][0],
@@ -508,11 +519,11 @@ function FindWay(props){
 								var size;
 						
                                 if (properties.pointType == "S") { //출발지 마커
-									markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png";
+									markerImg = "/upload/tmap/marker/pin_r_m_s.png";
 									pType = "S";
 									size = new Tmapv2.Size(24, 38);
 								} else if (properties.pointType == "E") { //도착지 마커
-									markerImg = "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png";
+									markerImg = "/upload/tmap/marker/pin_r_m_e.png";
 									pType = "E";
 									size = new Tmapv2.Size(24, 38);
 								} else { //각 포인트 마커
@@ -550,12 +561,12 @@ function FindWay(props){
 							}
 						}//for문 [E]
 						drawLine(drawInfoArr);
-                        polyline4 = new Tmapv2.Polyline({
-                            path: drawInfoArr,
-                            strokeColor: "#E00000", // 라인 색상
-                            strokeWeight: 4, // 라인 두께
-                            map: map // 지도 객체
-                        });
+                        //polyline4 = new Tmapv2.Polyline({
+                        //    path: drawInfoArr,
+                        //    strokeColor: "#E00000", // 라인 색상
+                        //    strokeWeight: 4, // 라인 두께
+                        //    map: map // 지도 객체
+                        //});
                     },
                     error: function(err){
                         console.log("에러임");
@@ -634,6 +645,7 @@ function FindWay(props){
             if(${both}){  
                 console.log("both!@@@@!@!@!@!@!@!@!@!@!@!@!@!@");   
                 if(!checki){
+                    console.log("첫로드");
                     map = initTmap();
                 } 
 
