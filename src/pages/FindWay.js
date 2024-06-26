@@ -16,7 +16,7 @@ import mymarker from "../images/mylocation.png";
 import stairs from "../images/stairs.png";
 import charging from "../images/charging_station_icon.png"
 import elevator from "../images/elevator.png";
-
+import ping from "../images/ping.png"
 
 const baseurl = 'http://localhost:9000/'         //베이스 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -27,6 +27,8 @@ function FindWay(props){
     const [mylon, setMyLon] = useState();
     const [startplaceholder, setStartPlaceHolder] = useState('출발지 입력');
     const [endplaceholder, setEndPlaceHolder] = useState('도착지 입력');
+
+    const [icon, setIcon] = useState(ping);
 
     const [present, setPresent] = useState();
     const [startPlace, setStartPlace] = useState();
@@ -186,6 +188,7 @@ function FindWay(props){
             })
         }
     }, [route]);
+
     useEffect(() => {
         console.log(location.state);
         setFindway(location.state);
@@ -444,7 +447,7 @@ function FindWay(props){
                 marker_s = new Tmapv2.Marker(
                     {
                         position : new Tmapv2.LatLng(${startLat}, ${startLng}),
-                        icon : "/upload/tmap/marker/pin_r_m_s.png",
+                        icon : "${icon}",
                         iconSize : new Tmapv2.Size(24, 38),
                         map : map
                     });
@@ -454,7 +457,7 @@ function FindWay(props){
                 marker_e = new Tmapv2.Marker(
                     {
                         position : new Tmapv2.LatLng(${endLat}, ${endLng}),
-                        icon : "/upload/tmap/marker/pin_r_m_e.png",
+                        icon : "${icon}",
                         iconSize : new Tmapv2.Size(24, 38),
                         map : map
                 });
@@ -519,11 +522,11 @@ function FindWay(props){
 								var size;
 						
                                 if (properties.pointType == "S") { //출발지 마커
-									markerImg = "/upload/tmap/marker/pin_r_m_s.png";
+									markerImg = "${icon}";
 									pType = "S";
 									size = new Tmapv2.Size(24, 38);
 								} else if (properties.pointType == "E") { //도착지 마커
-									markerImg = "/upload/tmap/marker/pin_r_m_e.png";
+									markerImg = "${icon}";
 									pType = "E";
 									size = new Tmapv2.Size(24, 38);
 								} else { //각 포인트 마커
