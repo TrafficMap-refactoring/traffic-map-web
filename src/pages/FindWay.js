@@ -17,6 +17,7 @@ import stairs from "../images/stairs.png";
 import charging from "../images/charging_station_icon.png"
 import elevator from "../images/elevator.png";
 import ping from "../images/ping.png"
+import {start} from "proj4/lib/projections";
 
 const baseurl = 'http://localhost:9000/'         //베이스 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -112,7 +113,7 @@ function FindWay(props){
         }else{
             end = endPlace.name;
         }
-        TmapfindTrans(start, end);
+        TmapfindTrans(startPlace, endPlace);
         closeModal();
     }
 
@@ -130,12 +131,12 @@ function FindWay(props){
         })
     };
 
-    const TmapfindTrans = (startname, endname) => {     //대중교통 길찾기 url
+    const TmapfindTrans = (startPlace, endPlace) => {     //대중교통 길찾기 url
         const tft = axios.create({
             baseURL: baseurl
         })
         tft.get('/api/way/trans',  {params: {
-            sName: startname, eName: endname
+            sLat: startPlace.obj.latitude,sLng: startPlace.obj.longitude, eLat: endPlace.obj.latitude,eLng: endPlace.obj.longitude
         }}).then(function(res){
             window.open(res.data, '_blank');
         }).catch(function(err){
