@@ -45,6 +45,10 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 module.exports = {
   devServer: {
     historyApiFallback: true,
+    https:{
+      key: "./*-key.pem",
+      cert: "./*.pem"
+    }
   },
 
 }

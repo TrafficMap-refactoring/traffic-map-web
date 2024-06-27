@@ -500,19 +500,15 @@ function FindWay(props){
 
 
 							if (geometry.type == "LineString") {
-								for ( var j in geometry.coordinates) {
-								  
+								for ( var j in geometry.coordinates) {								  
 									// 경로들의 결과값(구간)들을 포인트 객체로 변환 
 									var latlng = new Tmapv2.Point(
 											geometry.coordinates[j][0],
-											geometry.coordinates[j][1]);
-									// 포인트 객체를 받아 좌표값으로 변환
-									var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(
-											latlng);
+											geometry.coordinates[j][1]);								
 									// 포인트객체의 정보로 좌표값 변환 객체로 저장
 									var convertChange = new Tmapv2.LatLng(
-											convertPoint._lat,
-											convertPoint._lng);
+											latlng.y,
+											latlng.x);
 									// 배열에 담기
 									drawInfoArr.push(convertChange);
 								}
@@ -602,6 +598,7 @@ function FindWay(props){
 
             function drawLine(arrPoint) {
                 console.log("드로우 실행");
+                console.log(arrPoint);
                 var polyline_;
         
                 polyline_ = new Tmapv2.Polyline({
@@ -610,6 +607,7 @@ function FindWay(props){
                     strokeWeight : 6,
                     map : map
                 });
+                console.log("푸시전");
                 resultdrawArr.push(polyline_);
             }
 
