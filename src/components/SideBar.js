@@ -33,8 +33,6 @@ const SideBar =({width, children, totalDistance, totalTime, start, end})=>{
         }
     }
     const handleClose = async e => {
-        console.log("클릭");
-        console.log(isOpen);
         let sideArea = side.current;
         let sideCildren = side.current.contains(e.target);
         if (isOpen && (!sideArea || !sideCildren)) {
@@ -44,24 +42,10 @@ const SideBar =({width, children, totalDistance, totalTime, start, end})=>{
     }
 
     
-    // const Nav = styled.nav`
-    //     dispaly: flex;
-    //     overflow: auto;
-    //     height: 45px;
-    //     &::-webkit-scrollbar{
-    //         width: 8px;
-    //         height: 8px;
-    //         border-radius: 6px;
-    //         background: rgba(255,255,255,0.4);
-    //     }
-    //     &::-webkit-scrollbar-thumb {
-    //         background: rgba(0,0,0, 0.3);
-    //         border-radius: 6px;
-    //     }
-    //     `;
+
 
     useEffect(()=>{
-        console.log(width);
+
         window.addEventListener('click', handleClose);
         return () => {
             window.removeEventListener('click', handleClose);
@@ -69,12 +53,10 @@ const SideBar =({width, children, totalDistance, totalTime, start, end})=>{
     })
 
     useEffect(()=>{
-        console.log(totalDistance);
-        console.log(totalTime);
+
         var n;
         if(totalDistance > 1000){                   //총 거리
             totalDistance = totalDistance / 1000;
-            console.log(totalDistance); 
             setDistance(totalDistance+"km");       
         }else{
             setDistance(totalDistance+"m");
@@ -83,8 +65,6 @@ const SideBar =({width, children, totalDistance, totalTime, start, end})=>{
         if(totalTime > 60){                         //총 시간
             n = parseInt(totalTime%60);
             totalTime = parseInt(totalTime / 60);
-            console.log(n);
-            console.log(totalTime);
             setTime("약 "+totalTime+"시간 "+n+"분");
         }else{
             totalTime = parseInt(totalTime);

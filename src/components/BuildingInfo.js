@@ -20,7 +20,7 @@ const BuildingInfo = (props) => {
     
 
     useEffect(()=>{    
-        console.log(props);  
+
         var mylat = props.mylocation.latitude;
         var mylng = props.mylocation.longitude;
         var lat = props.obj.frontLat;
@@ -64,7 +64,7 @@ const BuildingInfo = (props) => {
         })
         subwayinfo.get('/api/subway',  {params: {name: subwaynm}})
         .then(function(res){
-            console.log(res.data);
+
             SetSelectSubway(res.data);
   
             navigate("/location-map", {
@@ -80,11 +80,11 @@ const BuildingInfo = (props) => {
     };
 
     const handleClick = (evt) => {
-        console.log(props);
+
         if(location.pathname == '/search'){
             if(props.obj.upperBizName === "교통편의"){
                 var subwayname = ((props.obj.name).split('역'))[0];
-                console.log(subwayname);
+
                 switch (subwayname){
                     case '쌍용': subwayname='쌍용(나사렛대)'; break;
                     case '총신대입구': subwayname = '총신대입구(이수)'; break;
@@ -128,11 +128,11 @@ const BuildingInfo = (props) => {
             if(evt.target.className !== 'bi bi-map'){
             var start = null, end = null;
             if(props.id == 'start' && props.endBuilding){
-                console.log("이건 진짜 다입력한거임 ");
+
                 start = props;
                 end = props.endBuilding;
             }else if(props.id == 'end' && props.startBuilding){
-                console.log("이것도 다 입력한거임");
+
                 start = props.startBuilding;
                 end = props;
             }else if(props.id == 'start'){
@@ -155,20 +155,20 @@ const BuildingInfo = (props) => {
     };
 
     const handleButtonClick = () => {
-        console.log(props);
+
         if(props.obj.upperBizName === "교통편의"){
             var subwayname = (props.obj.name).split('역');
-            console.log(subwayname[0]);
+
             searchsubwayinfo(subwayname[0]);       
         }
         else{
             var start = null, end = null;
             if(props.id == 'start' && props.endBuilding){
-                console.log("이건 진짜 다입력한거임 ");
+
                 start = props;
                 end = props.endBuilding;
             }else if(props.id == 'end' && props.startBuilding){
-                console.log("이것도 다 입력한거임");
+
                 start = props.startBuilding;
                 end = props;
             }else if(props.id == 'start'){

@@ -25,7 +25,6 @@ const BusRouteList = (props) => {
     }
 
     if(props.turn === props.bstopid){     //회차지인 경우
-        console.log("회차지");
         turnaround = true;
     }
     else{

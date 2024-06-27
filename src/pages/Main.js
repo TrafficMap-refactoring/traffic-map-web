@@ -38,11 +38,9 @@ function Main() {
 
     const onCheckedElement = (checked, item) => {
       if(checked){
-        console.log("체크");
         setCheckedList([...checkedList, item]);
         setChecked(true);
       }else if(!checked){
-        console.log("체크 안돼있음");
         setCheckedList(checkedList.filter(el => el !== item));
         setChecked(false);
       }
@@ -50,10 +48,8 @@ function Main() {
 
     const onCheckedWheel = (wheelchecked, item) => {
       if(wheelchecked){
-        console.log("휠체어~체크");
         setWheelChecked(true);
       }else if(!wheelchecked){
-        console.log("휠체어 노체크~");
         setWheelChecked(false);
       }
     }
@@ -82,13 +78,12 @@ function Main() {
       setLocationButton(true);
     }
     const handleNavButton = () =>{      //길찾기 버튼
-      console.log("길찾기 버튼 클릭");
       reverseGeocoding(location.latitude, location.longitude); 
     }
 
     const handleSuccess = (pos) => {    //내 위치 찾기
       const {latitude, longitude } = pos.coords;
-      console.log(latitude, longitude)
+
 
       setLocation({
         latitude, longitude
@@ -121,7 +116,7 @@ function Main() {
       })
       getstair.get('/api/find/stair')
       .then(function(res){
-        console.log(res);
+
       }).catch(function(err){
         console.log("계단 정보 못받아옴");
       })
@@ -138,16 +133,14 @@ function Main() {
 
     function useOutsideClick(ref){      //클릭이벤트
       useEffect(()=>{
-        console.log(`useEffect()`);
+
     
         function handleClickOutside(event){
           setTimeout(function(){
-          // console.log(ref);
           
           if(ref.current && !ref.current.contains(event.target)){
             const mytest = document.getElementById('test');
-            console.log(`select의 외부 클릭을 감지!`);
-            console.log(mytest.innerText);
+
           }
         }, 100)
         }
@@ -169,8 +162,7 @@ function Main() {
   useEffect(()=>{
     navigator.geolocation.watchPosition(handleSuccess);
     // setInterval(()=>{
-    //   navigator.geolocation.watchPosition(handleSuccess);
-    //   console.log("3초에 한번~");
+    //   navigator.geolocation.watchPosition(handleSuccess)
     // }, 3000);
     // navigator.geolocation.watchPosition(handleSuccess);
   }, [])
@@ -179,7 +171,7 @@ function Main() {
     var zoomin;
     var zoomout;
     var movelocation;
-    console.log(checkedList);
+
     setScreenSize();
     if(location){
       var lat = location.latitude;
@@ -262,7 +254,7 @@ function Main() {
           var result_mouse = e.latLng
           var resultDiv = document.getElementById("result_mouse");
           // resultDiv.innerHTML = result_mouse;
-          console.log(result_mouse._lat);     
+            
       }
 
       function onTouchstart(e) {
@@ -273,7 +265,7 @@ function Main() {
         
       function onZoomChanged(e) {
         if(elevatormks){
-          console.log(testmap.getZoom());
+          
           if(testmap.getZoom()>15){
             for(var i = 0; i < elevatormks.length; i++){
               elevatormks[i].setMap(testmap);
@@ -406,7 +398,7 @@ function Main() {
           markers = [];
           
           for(var i = 0; i < res.length; i++){
-            console.log("마커생성");
+            
             var lat = res[i].startlatitude;
             var lng = res[i].startlongitude;
 
@@ -445,10 +437,7 @@ function Main() {
           markers[i].setMap(null);
         }
       }
-      console.log(markers);
       
-      console.log(marker);
-      console.log(marker.getOffset());
 
     }
    `;

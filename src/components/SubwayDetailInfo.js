@@ -11,16 +11,15 @@ const SubwayDetailInfo = (props) => {
 
     useEffect(()=>{
         setBuildingDetailInfo(props.props.obj);
-        console.log(buildingDetailInfo);
     })
 
 
     const startbutton =()=>{
-        console.log('startbutton');
+
     }
 
     const arrivebutton=()=>{
-        console.log('arrivebutton');
+
     }
 
     const stylehead={

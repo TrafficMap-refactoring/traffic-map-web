@@ -82,19 +82,16 @@ function ResultSearch() {
       element.addEventListener("DOMSubtreeModified", function(){      
         if(element.innerText){
           var markerindex = parseInt(element.innerText);
-          console.log(markerindex);
+
           if(markerindex == 0){
-            console.log("0인데요!");
+
             setChooseMarker(0);
           }else{
             setChooseMarker(markerindex);
-          }    
-          if(buildingList[0]){
-            console.log(buildingList);
           }
         }
         else{
-          console.log("업거든!");
+          console.log("없음");
         }
       });
     }, [])
@@ -102,25 +99,21 @@ function ResultSearch() {
     ////////////////////////////////////////////////////////////////////////
     function useOutsideClick(ref){      //클릭이벤트
       useEffect(()=>{
-        console.log(`useEffect()`);
     
         function handleClickOutside(event){
           setTimeout(function(){
-          // console.log(ref);
+
 
           if(ref.current && !ref.current.contains(event.target)){
             const mytest = document.getElementById('test');
             what = mytest.innerText;
             const notmarker = parseInt(what);
             setChooseMarker(notmarker);
-            console.log(`select의 외부 클릭을 감지!`);
+
             if(!what){
               setChooseMarker(null);
             }
             mytest.innerHTML="";
-          }
-          else{
-            console.log("먼가 클릭함?");
           }
         }, 100)
         }
@@ -168,8 +161,6 @@ function ResultSearch() {
       setMiddleLng(middlelng);
       setPlength(buildingList.length);
 
-      console.log(middlelat, middlelng);
-      console.log(buildingList);
     }
 
     setScreenSize();
@@ -279,7 +270,7 @@ function ResultSearch() {
               for(var i = 0; i < markers.length; i++){
                 if(latlng === markers[i].getPosition()){          
                   ${test = `i`};
-                  console.log('test: '+${test});
+                 
                   var element = document.getElementById('test');
                   element.innerHTML = '<p>'+${test}+'</p>';                       
                 }
@@ -315,7 +306,7 @@ function ResultSearch() {
             var result_mouse = e.latLng
             var resultDiv = document.getElementById("result_mouse");
             // resultDiv.innerHTML = result_mouse;
-            console.log(result_mouse._lat);     
+            
         }
 
         function onTouchstart(e) {
@@ -327,7 +318,7 @@ function ResultSearch() {
         function onTouchend(e) {
           var element = document.getElementById('test');
           var element1 = document.getElementById('test1');
-          console.log(element1.innerText);
+          
           if(element1.innerText == 'false'){
             element.innerHTML = 'x';     
           }else if(element1.innerText == 'true'){
@@ -342,7 +333,7 @@ function ResultSearch() {
 
         function onZoomChanged(e) {
           if(elevatormks){
-            console.log(locationmap.getZoom());
+            
             if(locationmap.getZoom()>15){
               for(var i = 0; i < elevatormks.length; i++){
                 elevatormks[i].setMap(locationmap);
@@ -399,7 +390,7 @@ function ResultSearch() {
 
           },
           success: function(res){
-            console.log(res);
+            
 
             elevatormks = [];
             for(var i = 0; i < res.length; i++){
@@ -441,14 +432,14 @@ function ResultSearch() {
   }, [handleSuccess, location]);
 
   useEffect(()=>{ //~방향인 애들 없애기
-    console.log('setBuildingList');
+
     var tmp = (marker.state.building).filter(function(data){
       return !data.name.includes('방향');
     });
-    console.log(tmp);
+
     setBuildingList(tmp);
     
-    console.log(buildingList);
+
    }, []);
 
   return (

@@ -49,7 +49,6 @@ function LocationMap() {
     })
 
     useEffect(()=>{
-      console.log(building);
       setRefresh(false);
     }, [building]);
 
@@ -94,7 +93,7 @@ function LocationMap() {
 
         buildinglatitude = test.y;
         buildinglongitude = test.x;
-        console.log("길찾기 중인 버정");
+
         setSid(0);
 
       }
@@ -130,7 +129,7 @@ function LocationMap() {
     var movelocation;
 
     var mrefresh = refresh;
-    console.log(mrefresh);
+
 
     setScreenSize();
     if(building){
@@ -201,10 +200,10 @@ function LocationMap() {
           var wgs84;
           if(parseInt(pos.lat) > 1000){
             var epsg3857 = new Tmapv2.Point(pos.lat, pos.lng);
-            console.log(epsg3857);
+            
             wgs84 = Tmapv2.Projection.convertBesselTMToWGS84GEO(epsg3857);
-            console.log("좌표변환실행");
-            console.log(wgs84);
+            
+           
           }
           else{
             wgs84 = new Tmapv2.LatLng(pos.lat, pos.lng);
@@ -231,15 +230,14 @@ function LocationMap() {
           var wgs84;
           if(parseInt(lat) > 1000){
             var epsg3857 = new Tmapv2.Point(lat, lng);
-            console.log(epsg3857);
+            
             wgs84 = Tmapv2.Projection.convertBesselTMToWGS84GEO(epsg3857);
-            console.log("좌표변환실행");
-            console.log(wgs84);
+            
           }
           else{
             wgs84 = new Tmapv2.LatLng(lat, lng);
           }
-          console.log(img);
+          
           var marker = new Tmapv2.Marker({
             position: wgs84,
             icon: img,
@@ -252,7 +250,7 @@ function LocationMap() {
             var result_mouse = e.latLng
             var resultDiv = document.getElementById("result_mouse");
             // resultDiv.innerHTML = result_mouse;
-            console.log(result_mouse._lat);     
+             
         }
 
         function onTouchstart(e) {
@@ -263,7 +261,7 @@ function LocationMap() {
 
         function onZoomChanged(e) {
           if(elevatormks){
-            console.log(locationmap.getZoom());
+            
             if(locationmap.getZoom()>15){
               for(var i = 0; i < elevatormks.length; i++){
                 elevatormks[i].setMap(locationmap);
@@ -317,7 +315,7 @@ function LocationMap() {
 
           },
           success: function(res){
-            console.log(res);
+         
 
             elevatormks = [];
             for(var i = 0; i < res.length; i++){

@@ -33,7 +33,7 @@ function BusRoute(){
     const [turnId,setTurnId] = useState();
     const handlebackButton = () => {
         var url = location.state.url;
-        console.log("back");   
+
         if(url == 'https://localhost:3002/location-map'){
             navigate(-1);  
         }else{
@@ -42,10 +42,9 @@ function BusRoute(){
     }
 
     useEffect(() => {                               //받아온 버스 정보 버스 노선 정보, 버스 실시간 위치 정보
-        console.log(location.state.url);
+
         setBusRoute(location.state.busroute);
-        console.log(busRoute);
-        console.log(typeof busRoute);
+
 
         var turnId;
         for (let key in busRoute) {
@@ -58,7 +57,7 @@ function BusRoute(){
         }
 
         setBusInfo(location.state.props);
-        console.log(busInfo);
+
         var id = location.state.props.routeType;
         switch (id) {
             case 1: setColor('#009300'); setImg(bus1); break;       //지선,초록색
@@ -92,7 +91,7 @@ function BusRoute(){
             .then(function(res){
             if(res){
                 setRealLocation(res.data);
-                console.log(res.data);
+
                 setIsItBus(true);
             }
             else{

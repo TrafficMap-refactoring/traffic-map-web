@@ -60,7 +60,6 @@ const BuildingDetailInfo = (props) => {
 
         element.classList.remove("bounce");
 
-        console.log(element.offsetWidth);
 
         element.classList.add("bounce");
 
@@ -84,7 +83,7 @@ const BuildingDetailInfo = (props) => {
   }
 
     const handlestartButton = () => {
-        console.log("출발 버튼 클릭");
+
         navigate('/find-way', {
             state:{
                 startBuilding: props.whole.props,
@@ -94,7 +93,7 @@ const BuildingDetailInfo = (props) => {
         })
     }
     const handleendButton = () => {
-        console.log("도착 버튼 클릭");
+
         navigate('/find-way', {
             state:{
                 endBuilding: props.whole.props,
@@ -113,13 +112,13 @@ const BuildingDetailInfo = (props) => {
             start = props.whole.startBuilding;
             end = props.whole.props;
         }else if(props.findway === 'start'){
-            console.log("c출발");
+
             start = props.whole.props;     
         }else if(props.findway === 'end'){
-            console.log("도ㅗ착");
+
             end = props.whole.props;
         }
-        console.log(props);
+
         navigate('/find-way', {
             state: {
                 props: props.whole.props,
@@ -141,7 +140,7 @@ const BuildingDetailInfo = (props) => {
 
         var name = (buildingDetailInfo.name).split(/[\[\]]/);
         var subname = name[0];
-        console.log(name);
+
         var line = name[1].split('호');
 
         switch (subname){
@@ -176,17 +175,17 @@ const BuildingDetailInfo = (props) => {
         if((buildingDetailInfo.name).includes('인천지하철')){
         subwaymap.get('/api/subway/photo2', {params: {name: subwayname}})
         .then(function(res){
-            console.log(res.data);
+
             if((buildingDetailInfo.name).includes('인천지하철1호선')){
                 setLine('지하철입체지도/인천1호선/');
-                console.log("인천 지하철 1호선임");          
+
             }else if((buildingDetailInfo.name).includes('인천지하철2호선')){
                 setLine('지하철입체지도/인천2호선/');
-                console.log("인천 지하철 2호선임");
+
             }
             Seturl(res.data);
         }).catch(function(err){
-            console.log("지하철 입체지도 정보 못받아옴");
+            console.log("지하철 정보 error");
         })
         }else{
             var line;
@@ -196,11 +195,8 @@ const BuildingDetailInfo = (props) => {
             }else{
                 line = line[0]
             }
-            console.log(name);
-            console.log(line);
         subwaymap2.get('api/subway/photo', {params: {name: name}})
         .then(function(res){
-            console.log(res.data);
             Seturl(res.data.url);
         }).catch(function(err){
             console.log("1~9호선 내부지도 못받아옴");
@@ -245,7 +241,6 @@ const BuildingDetailInfo = (props) => {
         }
         subwayinfo.get('/api/subway',  {params: {name: subwayname}})
         .then(function(res){
-            console.log(res.data);    
             var i= 0, j = 0;
             var tmp1 = [];
             var tmp2 = [];
@@ -287,7 +282,7 @@ const BuildingDetailInfo = (props) => {
         })
         wheelchairlift.get('/api/subway/wheelchair',  {params: {name: subwayname}})
         .then(function(res){
-            console.log(res.data);
+
             if(res.data){
                 setIsWheelChairLift(true);
                 setWCLocation(res.data);
@@ -304,7 +299,6 @@ const BuildingDetailInfo = (props) => {
         })
         toilet.get('/api/subway/toilet',  {params: {name: subwayname}})
         .then(function(res){
-            console.log(res.data);
             if(res.data){
                 setIsToilet(true);
                 setToiletLocation(res.data);
@@ -323,7 +317,6 @@ const BuildingDetailInfo = (props) => {
         })
         subwayElevator.get('/api/subway/elevator',  {params: {name: subwayname}})
             .then(function(res){
-                console.log(res.data);
                 if(res.data){
                     setIsSubwayElevator(true);
                     setSubwayElevatorLocation(res.data);
@@ -336,7 +329,6 @@ const BuildingDetailInfo = (props) => {
 
     };
     const handleWCButton = () => {  //화장실 아이콘 버튼 클릭
-        console.log("클릭했구려");
         
         if(isToiletClick){
             setIsToiletClick(false);
@@ -382,12 +374,9 @@ const BuildingDetailInfo = (props) => {
 
     useEffect(()=>{
         var tmp;
-        console.log(props);
-        console.log(props.props.name);
+
         if((props.props.upperBizName) == '교통편의' && (props.props.name).includes('역')){
         var sname1 = (props.props.name).split(/[\[\]'역']/);
-        console.log(sname1);
-        console.log(sname);
         if(sname1[2] === '지하철경의중앙선'){
             tmp = '경의중앙선';
         }else if(sname1[2].includes('부산지하철')){
@@ -403,41 +392,20 @@ const BuildingDetailInfo = (props) => {
             case '광주송정': subwayname = '광주송정역'; break;
         };
         var sname = tmp + " " + subwayname;
-        console.log(sname);
+
         findToilet(sname);
         findSubwayElevator(sname);
         findWheelchair(sname);
         }
         setBuildingDetailInfo(props.props);
         SetSubway(props.subway);
-        //if(props.props.elvtrSttsNm === '운행중'){
-        //    setIsElevator(true);
-        //}else{
-        //    setIsElevator(false);
-        //}
 
-        // if(!one && buildingDetailInfo && subway){
-        //     setOne(true);
-        //     searchsubwaytime();
-        // }
 
         if(!one && buildingDetailInfo && subway){       //이거 뭐더라..?
-            console.log(buildingDetailInfo);
+
             setOne(true);
             searchsubwaytime();
-            // var i= 0, j = 0;
-            // {subway.map((obj)=>{
-            //     if((buildingDetailInfo.name).includes(obj.subwayId)){
-            //         if(obj.updnLine === "상행" && i<2){
-            //             SetSubwayUp(subwayUp => [...subwayUp, obj]);
-            //             i++;
-            //         }
-            //         else if(obj.updnLine === "하행" && j<2){
-            //             SetSubwayDown(subwayDown => [...subwayDown, obj]);
-            //             j++
-            //         }
-            //     };
-            // })}
+
         }
     }, [props, buildingDetailInfo, subway])
 
@@ -480,7 +448,7 @@ const BuildingDetailInfo = (props) => {
                             <div ref={el} style={{position: "absolute", backgroundColor: "white", height: "20%", top: "-21%", right: "0px"}}>
                                 {/* <Swiper > */}
                                 {subwayElevatorLocation.map((obj, index)=>{
-                                    console.log(obj.dtlLoc);
+
                                     return(
                                         <SwiperSlide>
                                             <div style={{boxShadow: "0px 0px 2px 1px gray", borderRadius: "3px"}}>
@@ -496,7 +464,7 @@ const BuildingDetailInfo = (props) => {
                         <div ref={el} style={{position: "absolute", backgroundColor: "white", height: "20%", top: "-21%", right: "0px"}}>
                             {/* <Swiper > */}
                             {toiletLocation.map((obj, index)=>{
-                                console.log(obj.dtlLoc);
+
                                 return(
                                     <SwiperSlide>
                                     <div style={{boxShadow: "0px 0px 2px 1px gray", borderRadius: "3px"}}>
@@ -512,7 +480,7 @@ const BuildingDetailInfo = (props) => {
                         <div style={{position: "absolute", backgroundColor: "white", height: "20%", top: "-21%", right: "0px"}}>
                             {/* <Swiper > */}
                             {wheelchairLocation.map((obj, index)=>{
-                                console.log(obj.dtlLoc);
+
                                 return(
                                     <SwiperSlide>
                                     <div style={{boxShadow: "0px 0px 2px 1px gray", borderRadius: "3px"}}>
