@@ -34,8 +34,7 @@ const SideBar =({width=200, children, onCheck, onCheckWheel})=>{
         }
     }
     const handleCheckBox = (id) => {
-        console.log(id);
-        console.log("머임");
+
     }
 
     useEffect(()=>{

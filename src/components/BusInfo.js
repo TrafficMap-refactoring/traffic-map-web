@@ -37,7 +37,7 @@ const BuildingInfo = (props) => {
         })
         busroute.get('/api/bus/busstopbyroute',  {params: {busRouteId: props.obj.busRouteId}})
         .then(function(res){
-         console.log(res.data);
+
          navigate('/bus-route', {
             state:{
                 busroute: res.data,
@@ -52,20 +52,20 @@ const BuildingInfo = (props) => {
      }
 
      const searchBusRouteInfo = () => {
-        console.log(props);
+
         const busrouteinfo = axios.create({
             baseURL: baseurl
         })
         busrouteinfo.get('/api/bus/busstopbyroute',  {params: {busRouteId: props.obj.busRouteId}})
         .then(function(res){
             searchBusRoute(res.data);
-            console.log(res.data);
+
         }).catch(function(err){
             console.log("버스 노선 정보 못받아옴");
         })
      }
     return(
-        console.log(props.obj),
+
         <li className="list-group-item" onClick={searchBusRouteInfo} style={{paddingLeft: "10px"}}>
             <div className="ms-2" style={{ textAlign: "left"}}>
                 <div className="fw-bold" style={{ textAlign: "left", color: color}}>

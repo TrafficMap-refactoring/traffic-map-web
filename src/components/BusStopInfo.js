@@ -19,7 +19,6 @@ const BusStopInfo = (props) => {
         })
         busstopinfo.get('/api/bus/arrinfo',  {params: {arsId: props.obj.arsId}})
         .then(function(res){
-            console.log(res.data);
 
             navigate("/location-map", {
                 state: {
@@ -36,16 +35,13 @@ const BusStopInfo = (props) => {
 
     const handleClick = (evt) => {
         var start = null, end = null;
-        console.log("props");
-        console.log(props);
+
         if(preUrl){
             if(evt.target.className !== 'bi bi-map'){
                 if(props.id == 'start' && props.endBuilding){
-                    console.log("이건 진짜 다입력한거임 ");
                     start = props;
                     end = props.endBuilding;
                 }else if(props.id == 'end' && props.startBuilding){
-                    console.log("이것도 다 입력한거임");
                     start = props.startBuilding;
                     end = props;
                 }else if(props.id == 'start'){
@@ -77,7 +73,7 @@ const BusStopInfo = (props) => {
             start = null;
             end = props.endBuilding;
         }
-        console.log("지도 아이콘 클릭");
+
         navigate('/location-map', {
             state: {
                 props: props,
@@ -91,7 +87,7 @@ const BusStopInfo = (props) => {
     }
 
     useEffect(()=>{
-        console.log(props);
+
         if(location.pathname == '/find-search'){
             setPreUrl(true);
         }else if(location.pathname == '/search'){

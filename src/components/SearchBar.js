@@ -27,31 +27,13 @@ const SearchBar = (props) => {
     const [endBuilding, setEndBuildingInfo] = useState();
 
     const [showPopup, setShowPopup] = useState(false);
-    // const togglePopup = (e) => {
-    //     setShowPopup(e.target.value)
-    // };
-    
 
-    // $("#sin").bind('keydown', function(e){
-    //     if(e.keyCode === 13){
-    //         console.log("enter@@@@@@@@@@@@@@@@");
-    //         e.preventDefault();
-    //         setShowPopup(true);
-    //         // if(src == '/search' && (searchValue.includes('번 버스') || searchValue.includes('번버스'))){            
-    //         //     searchOnlyBus();
-    //         // }
-    //         // else{
-    //         //     searchBusStop();
-    //         // }
-    //         $("#sin").blur();
-    //     }
-    // })
 
     const location = useLocation();
 
     const handleValue = (e) => {        //검색어 입력받는 부분
         setSearchValue(e.target.value);
-        // setShowPopup(e.target.value)
+
     }
     const handleKeyPress = (e) => { //enter키 추적용 -> 검색 결과창으로 이동시킴
         if(e.key === 'Enter'){
@@ -85,7 +67,7 @@ const SearchBar = (props) => {
                 
             }
         }
-        // console.log(props.location);
+
     })
 
     const searchBuilding = (props1, props2) => {
@@ -134,7 +116,6 @@ const SearchBar = (props) => {
         })
         bus.get('api/bus/businfo',  {params: {strSrch: searchValue}})
         .then(function(res){
-            console.log(res.data);
             setShowPopup(false);
             navigate('/search', {
                 state: {
@@ -156,8 +137,6 @@ const SearchBar = (props) => {
         busstop.get('api/bus/busstop',  {params: {keyword: searchValue}})
         .then(function(res){
             searchBus(res.data);
-            console.log('버스정류소');
-            console.log(res.data);
         }).catch(function(error){
             setShowPopup(false);
             console.log('에러');

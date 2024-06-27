@@ -40,7 +40,7 @@ const BusStopDetailInfo = (props)=>{
         })
         busnum.get('/api/bus/busstopbyroute',  {params: {busRouteId: obj.busRouteId}})
         .then(function(res){
-            console.log(res.data);
+
             setBusNumList(busnumlist => [...busnumlist, res.data[0]]);
             setTestBus(testBus => [...testBus, {bus: obj, busnum: res.data[0]}]);
         }).catch(function(err){
@@ -49,13 +49,13 @@ const BusStopDetailInfo = (props)=>{
     };
 
     const searchbusstopinfo = (bstopid) => {
-        console.log(bstopid)
+
         const busstopinfo = axios.create({
             baseURL: baseurl
         })
         busstopinfo.get('/api/bus/arrinfo',  {params: {arsId: bstopid}})
         .then(function(res){
-            console.log(res.data);
+
             setRBus(res.data);
             var busarr = res.data;
             if(busarr){
@@ -72,69 +72,37 @@ const BusStopDetailInfo = (props)=>{
     const ref = useRef(null);
 
     const handleRefreshButton = () => {
-        console.log("새로고침");
-        console.log(props.obj.arsId);
+
         var bstopid = props.obj.arsId;
         searchbusstopinfo(bstopid);
     }
 
-    console.log(testBus);
+
     
 
-    // useEffect(()=>{                 //클릭 이벤트 임시 나중에 pc에서 onClick 이벤트 되는지 안되는지 확인 먼저
-    //     console.log(props);
-    //     setTimeout(function(){
-    //     let button1 = document.querySelector('#button1');
-    //     if(button1){
-    //         button1.addEventListener('click', function(){
-    //             console.log("클릭");
-    //     })
-    //     }
-    // }, 1000);
-    // }, [])
+
 
     useEffect(()=>{     //루트아이디로 버스 넘버 검색하는 거
-        // console.log(props);
-        // var busarr = props.bustop;
-        // console.log(busarr);
-        // console.log("useEffect");
-        // if(busarr){
-        // busarr.map((obj, index) => {
-        //     searchBusNum(obj);
-        // });
-        // SetIsSet(true);
-        // }
+
     }, [])
 
     useEffect(()=>{
-        console.log(props);
         setBustop(props.obj);
-        // setRBus(props.bustop);
+
         handleRefreshButton();
         
         setTimeout((bustopinfobar = document.getElementById('bustopinfobar')), 100);
-        // setTimeout(()=>{
-        //     $('#rbuslist').on('touchstart', function(e){
-        //         console.log(e.changedTouches[0].clientX);
-        //         console.log("먼가시작");
-        //     });
-        //     $('#rbuslist').on('touchmove', function(e){
-        //         console.log("먼가ing");
-        //     });
-        //     $('#rbuslist').on('touchend', function(e){
-        //         console.log("먼가끝");
-        //     });
-        // }, 50);
+
         var height = -(bustopinfobar.offsetHeight);
         setTop(height);
     }, [])
 
     function touchstart(){
-        console.log("터치요");
+        console.log("터치");
     }
 
     function touchmove(){
-        console.log("터치중~");
+        console.log("터치중");
     }
 
     function touchend(){
@@ -155,7 +123,7 @@ const BusStopDetailInfo = (props)=>{
         var lat2x = props.location.latitude;
         var lon2y = props.location.longitude;
 
-        console.log(lat2x, lon2y);
+
         function deg2rad(deg){
             return deg * (Math.PI/180);
         }
@@ -167,7 +135,7 @@ const BusStopDetailInfo = (props)=>{
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         var d = r* c;
         
-        console.log("km: "+d);
+
         if(d < 1){
             setDist(Math.round(d*1000)+"m");
         }else{
@@ -179,7 +147,7 @@ const BusStopDetailInfo = (props)=>{
     //////////////
 
     const handleStartButton = () => {
-        console.log("출발 버튼~");
+
         navigate('/find-way', {
             state:{
                 startBuilding: {obj: props.obj, address: "버스정류장", name: props.obj.bstopnm},
@@ -190,7 +158,7 @@ const BusStopDetailInfo = (props)=>{
         })
     }   
     const handleEndButton = () => {
-        console.log("도착 버튼~");
+
         navigate('/find-way', {
             state:{
                 endBuilding: {obj: props.obj, address: "버스정류장", name: props.obj.bstopnm},
@@ -203,64 +171,21 @@ const BusStopDetailInfo = (props)=>{
 
     const test1 = (evt, data) => {  //드래그 시작
         setStartXY(data);
-        // console.log("드래스 시작좌표" + data.y);
+
     }
     const test2 = (evt, position) => {  //드래그 중
         const {x, y} = position;
         setY({x:0, y: y});
-        // console.log("드래그중");
-        // console.log(position.y);
+
 
     }
-    // const test3 = (evt, data) => {  //드래그 끝
-    //     var element = document.getElementById('bustopinfobar');
-    //     var element1 = document.getElementById('bustopinfo');
-    //     var bstoph = element1.offsetHeight;
-    //     console.log(data);
-    //     // console.log("드래그 끝났" + data.y);
-    //     var posy;
-    //     posy = startXY.y - data.y ;
-    //     if(posy > 0){               //위로 드래그
-    //         posy = data.lastY - data.y;
-    //         var height = (element.offsetHeight)*0.87 + data.lastY;
-    //         if(posy > 0){       //위로 드래그
-    //             $('#bustopinfo').stop(true).animate({bottom: height}, 300);
-    //             $('#rbuslist').stop(true).animate({bottom: element.offsetHeight-bstoph}, 300);
-    //             setTop(data.lastY);
-    //             setBottom(height);
-    //         } else{             //드래그 방향을 바꿨기 때문에 아래로 드래그
-    //             //반이상 넘어갔으면 그냥 위로 드래그 하자 아직 구현 x
-    //             $('#bustopinfo').stop(true).animate({bottom: data.lastY}, 300);
-    //             $('#rbuslist').stop(true).animate({bottom: -element.offsetHeight+bstoph}, 300);
-    //             setTop(data.lastY-(element.offsetHeight)*0.87);
-    //             setBottom(data.lastY);
-    //         }
-    //     }
-    //     else if(posy < 0){          //아래로 드래그
-    //         posy = data.lastY - data.y;
-    //         var height = (element.offsetHeight)*0.87 - data.lastY;
-    //         var heightup = (element.offsetHeight)*0.87 + data.lastY;
-    //         if(posy < 0){       //아래로 드래그
-    //             $('#bustopinfo').stop(true).animate({bottom: data.lastY}, 300);
-    //             $('#rbuslist').stop(true).animate({bottom: -element.offsetHeight+bstoph}, 300);
-    //             setTop(data.lastY-(element.offsetHeight)*0.87);
-    //             setBottom(data.lastY);
-    //         }else{              //드래그 방향을 바꿨기 때문에 위로 드래그
-    //             //반이상 넘어갔으면 그냥 아래로 드래그하자 아직 구현 x
-    //             $('#bustopinfo').stop(true).animate({bottom: heightup}, 300);
-    //             $('#rbuslist').stop(true).animate({bottom: element.offsetHeight-bstoph}, 300);
-    //             setTop(data.lastY);
-    //             setBottom(heightup);
-    //         }
-    //     }
-    // }
+
 
     const test3 = (evt, data) => {  //드래그 끝
         var element = document.getElementById('bustopinfobar');
         var element1 = document.getElementById('bustopinfo');
         var bstoph = element1.offsetHeight;
-        console.log(data);
-        // console.log("드래그 끝났" + data.y);
+
         var posy;
         posy = startXY.y - data.y ;
         if(posy > 0){               //위로 드래그
@@ -311,8 +236,7 @@ const BusStopDetailInfo = (props)=>{
                             <ol className="list-group" >
                             {rbus && isset && rbus.map((obj, index)=>{
                                 var test = busnumlist[index];
-                                console.log(test);
-                                console.log(testBus[index]);
+
                                 if(test){
                                     let time = obj.arrmsg1;
                                     var lowTP;
